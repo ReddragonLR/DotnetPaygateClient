@@ -4,10 +4,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devops", "devops", "{D2E3D582-0C94-4470-BCE1-49AA1060496C}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		GitVersion.yml = GitVersion.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{94E347D9-E232-4E8D-AEF5-3DBF4DFEF428}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7DA4DD85-8A74-4943-B626-0D6C42888264}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paygate.Client", "src\Paygate.Client\Paygate.Client.csproj", "{B03F1FA3-EE72-4589-9CF5-D3464760493F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paygate.Client.Tests", "test\Paygate.Client.Tests\Paygate.Client.Tests.csproj", "{608762F8-BB28-4C7E-8821-C3DC997EF46F}"
 EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B03F1FA3-EE72-4589-9CF5-D3464760493F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B03F1FA3-EE72-4589-9CF5-D3464760493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B03F1FA3-EE72-4589-9CF5-D3464760493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B03F1FA3-EE72-4589-9CF5-D3464760493F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{608762F8-BB28-4C7E-8821-C3DC997EF46F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608762F8-BB28-4C7E-8821-C3DC997EF46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608762F8-BB28-4C7E-8821-C3DC997EF46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608762F8-BB28-4C7E-8821-C3DC997EF46F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B03F1FA3-EE72-4589-9CF5-D3464760493F} = {94E347D9-E232-4E8D-AEF5-3DBF4DFEF428}
+		{608762F8-BB28-4C7E-8821-C3DC997EF46F} = {7DA4DD85-8A74-4943-B626-0D6C42888264}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76695063-59B3-46C3-9D7F-CD5B48DECFFE}
