@@ -1,32 +1,31 @@
 ﻿using Newtonsoft.Json;
 using Paygate.Client.Models.Common;
 
-namespace Paygate.Client.Models.InitiatePayment
+namespace Paygate.Client.Models.QueryTransaction
 {
-    public sealed class Response : ModelBase
+    public sealed class Request : ModelBase
     {
-        public Response(string encryptionKey, string paygateId, string payRequestId, string paymentReference, string checksum)
+        public Request(string encryptionKey, string paygateId, string payRequestId, string paymentReference)
             : base(encryptionKey)
         {
             PaygateId = paygateId;
             PayRequestId = payRequestId;
             PaymentReference = paymentReference;
-            Checksum = checksum;
         }
 
         [JsonProperty("PAYGATE_ID")]
         [PartOfChecksum]
-        public string PaygateId { get; set; }
+        public string PaygateId { get; private set; }
 
         [JsonProperty("PAY_REQUEST_ID")]
         [PartOfChecksum]
-        public string PayRequestId { get; set; }
+        public string PayRequestId { get; private set; }
 
         [JsonProperty("REFERENCE")]
         [PartOfChecksum]
-        public string PaymentReference { get; set; }
+        public string PaymentReference { get; private set; }
 
         [JsonProperty("CHECKSUM")]
-        public string Checksum { get; set; }
+        public string Checksum => GenerateChecksum(EncryptionKey);
     }
 }

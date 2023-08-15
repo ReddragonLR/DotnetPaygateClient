@@ -1,52 +1,66 @@
 ﻿using Newtonsoft.Json;
-using Paygate.Client.Helpers;
 using Paygate.Client.Models.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Paygate.Client.Models.InitiatePayment
 {
-    public sealed class Request
+    public sealed class Request : ModelBase
     {
-        public Request(string paygateId, string paymentReference, decimal amount, Currency currency, Uri returnUrl, DateTime transactionDate, string emailAddress, Uri notifyUrl)
+        public Request(string encryptionKey, string paygateId, string paymentReference, double amount, Currency currency, Uri returnUrl, DateTime transactionDate, string emailAddress, Uri notifyUrl)
+            : base(encryptionKey)
         {
-            
+            PaygateId = paygateId;
+            PaymentReference = paymentReference;
+            Amount = amount;
+            Currency = currency.Code;
+            ReturnUrl = returnUrl.AbsoluteUri;
+            TransactionDate = transactionDate.ToString("yyyy-MM-dd HH:mm:ss");
+            Locale = Locales.en.ToString();
+            Country = currency.Country;
+            Email = emailAddress;
+            NotifyUrl = notifyUrl.AbsoluteUri;
         }
 
         [JsonProperty("PAYGATE_ID")]
+        [PartOfChecksum]
         public string PaygateId { get; private set; }
 
         [JsonProperty("REFERENCE")]
+        [PartOfChecksum]
         public string PaymentReference { get; private set; }
 
         [JsonProperty("AMOUNT")]
-        public decimal Amount { get; private set; }
+        [PartOfChecksum]
+        public double Amount { get; private set; }
 
         [JsonProperty("CURRENCY")]
+        [PartOfChecksum]
         public string Currency { get; private set; }
 
         [JsonProperty("RETURN_URL")]
+        [PartOfChecksum]
         public string ReturnUrl { get; private set; }
 
         [JsonProperty("TRANSACTION_DATE")]
+        [PartOfChecksum]
         public string TransactionDate { get; private set; }
 
         [JsonProperty("LOCALE")]
+        [PartOfChecksum]
         public string Locale { get; private set; }
 
         [JsonProperty("COUNTRY")]
+        [PartOfChecksum]
         public string Country { get; private set; }
 
         [JsonProperty("EMAIL")]
+        [PartOfChecksum]
         public string Email { get; private set; }
 
         [JsonProperty("NOTIFY_URL")]
+        [PartOfChecksum]
         public string NotifyUrl { get; private set; }
 
         [JsonProperty("CHECKSUM")]
-        public string Checksum => ChecksumHelper.CreateMD5($"{PaygateId}{PaymentReference}{Amount}{Currency}{ReturnUrl}{TransactionDate}{Locale}{Country}{Email}{NotifyUrl}");
+        public string Checksum => GenerateChecksum(EncryptionKey);
     }
 }
