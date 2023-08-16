@@ -50,4 +50,4 @@ jobs:
     - name: 'Nuget push'
       env:
         VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-      run: dotnet nuget push 'src/Paygate.Client/bin/Release/Paygate.Client.$VERSION.nupkg' --api-key ${{ secrets.PACKAGE_API_TOKEN }} --source "github"
+      run: dotnet nuget push "src/Paygate.Client/bin/Release/Paygate.Client.$VERSION.nupkg" --api-key ${{ secrets.PACKAGE_API_TOKEN }} --source "github"
