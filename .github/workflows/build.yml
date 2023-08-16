@@ -42,7 +42,7 @@ jobs:
     - name: 'Nuget Pack'
       env:
         VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
-      run: dotnet pack 'src/Paygate.Client/Paygate.Client.csproj' --no-build -p:PackageVersion=$VERSION
+      run: dotnet pack 'src/Paygate.Client/Paygate.Client.csproj' --configuration Release --no-build -p:PackageVersion=$VERSION
 
     - name: Prep packages
       run: dotnet nuget add source --username ReddragonLR --password ${{ secrets.PACKAGE_API_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ReddragonLR/index.json"
