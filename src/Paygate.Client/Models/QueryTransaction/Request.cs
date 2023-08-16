@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Paygate.Client.Models.Common;
+using Refit;
 
 namespace Paygate.Client.Models.QueryTransaction
 {
@@ -13,19 +14,19 @@ namespace Paygate.Client.Models.QueryTransaction
             PaymentReference = paymentReference;
         }
 
-        [JsonProperty("PAYGATE_ID")]
+        [AliasAs("PAYGATE_ID")]
         [PartOfChecksum]
         public string PaygateId { get; private set; }
 
-        [JsonProperty("PAY_REQUEST_ID")]
+        [AliasAs("PAY_REQUEST_ID")]
         [PartOfChecksum]
         public string PayRequestId { get; private set; }
 
-        [JsonProperty("REFERENCE")]
+        [AliasAs("REFERENCE")]
         [PartOfChecksum]
         public string PaymentReference { get; private set; }
 
-        [JsonProperty("CHECKSUM")]
+        [AliasAs("CHECKSUM")]
         public string Checksum => GenerateChecksum(EncryptionKey);
     }
 }

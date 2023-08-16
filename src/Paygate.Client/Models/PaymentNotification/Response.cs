@@ -1,75 +1,71 @@
 ﻿using Newtonsoft.Json;
 using Paygate.Client.Models.Common;
+using Refit;
 using System.Web;
 
 namespace Paygate.Client.Models.PaymentNotification
 {
-    public sealed class Response : ModelBase
+    public sealed class Response
     {
-        public Response(string encryptionKey)
-            : base(encryptionKey)
-        {
-        }
-
-        [JsonProperty("PAYGATE_ID")]
+        [AliasAs("PAYGATE_ID")]
         [PartOfChecksum]
         public string PaygateId { get; set; }
 
-        [JsonProperty("PAY_REQUEST_ID")]
+        [AliasAs("PAY_REQUEST_ID")]
         [PartOfChecksum]
         public string PayRequestId { get; set; }
 
-        [JsonProperty("REFERENCE")]
+        [AliasAs("REFERENCE")]
         [PartOfChecksum]
         public string Reference { get; set; }
 
-        [JsonProperty("TRANSACTION_STATUS")]
+        [AliasAs("TRANSACTION_STATUS")]
         [PartOfChecksum]
         public string TransactionStatus { get; set; }
 
-        [JsonProperty("RESULT_CODE")]
+        [AliasAs("RESULT_CODE")]
         [PartOfChecksum]
         public string ResultCode { get; set; }
 
-        [JsonProperty("AUTH_CODE")]
+        [AliasAs("AUTH_CODE")]
         [PartOfChecksum]
         public string AuthCode { get; set; }
 
-        [JsonProperty("CURRENCY")]
+        [AliasAs("CURRENCY")]
         [PartOfChecksum]
         public string Currency { get; set; }
 
-        [JsonProperty("AMOUNT")]
+        [AliasAs("AMOUNT")]
         [PartOfChecksum]
         public double Amount { get; set; }
 
-        [JsonProperty("RESULT_DESC")]
+        [AliasAs("RESULT_DESC")]
         [PartOfChecksum]
         public string ResultDescription { get; set; }
 
-        [JsonProperty("TRANSACTION_ID")]
+        [AliasAs("TRANSACTION_ID")]
         [PartOfChecksum]
         public string TransactionId { get; set; }
 
-        [JsonProperty("RISK_INDICATOR")]
+        [AliasAs("RISK_INDICATOR")]
         [PartOfChecksum]
         public string RiskIndicator { get; set; }
 
-        [JsonProperty("PAY_METHOD")]
+        [AliasAs("PAY_METHOD")]
         [PartOfChecksum]
         public string PayMethod { get; set; }
 
-        [JsonProperty("PAY_METHOD_DETAIL")]
+        [AliasAs("PAY_METHOD_DETAIL")]
         [PartOfChecksum]
         public string PayMethodDetail { get; set; }
 
-        [JsonProperty("CHECKSUM")]
+        [AliasAs("CHECKSUM")]
         public string Checksum { get; set; }
 
-        public static Response FromPayload(string encryptionKey, string data)
+        public static Response FromPayload(string payload)
         {
-            var keyValues = HttpUtility.ParseQueryString(data);
-            var response = new Response(encryptionKey)
+            var keyValues = HttpUtility.ParseQueryString(payload);
+            var response = new Response()
             {
                 PaygateId = keyValues["PAYGATE_ID"],
                 PayRequestId = keyValues["PAY_REQUEST_ID"],

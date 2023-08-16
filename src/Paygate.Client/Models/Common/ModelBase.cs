@@ -1,5 +1,6 @@
 ﻿using Paygate.Client.Helpers;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Paygate.Client.Models.Common
@@ -20,23 +21,24 @@ namespace Paygate.Client.Models.Common
             return string.Equals(calculatedChecksum, checksum);
         }
 
-        protected string GenerateChecksum(string encryptionKey)
+        public string GenerateChecksum(string encryptionKey)
         {
-            return ChecksumHelper.CreateMD5(ExtractStringValuesWithAttribute() + encryptionKey);
+            var test = ChecksumHelper.CreateMD5(ExtractStringValuesWithAttribute() + encryptionKey);
+            return test;
         }
 
-        private string ExtractStringValuesWithAttribute()
+        public string ExtractStringValuesWithAttribute()
         {
             StringBuilder sb = new StringBuilder();
-            
+
             // Using reflection, get properties with the CustomStringAttribute attribute.
-            var propertiesWithAttribute = this.GetType()
+            IEnumerable<PropertyInfo> propertiesWithAttribute = this.GetType()
                                               .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                                              .Where(prop => prop.GetCustomAttribute<PartOfChecksumAttribute>() != null
-                                                          && prop.PropertyType == typeof(string));
+                                              .Where(prop => prop.GetCustomAttribute<PartOfChecksumAttribute>() != null);
             foreach ( var prop in propertiesWithAttribute )
             {
-                sb.Append( prop.Name );
+                var value = prop.GetValue(this).ToString();
+                sb.Append(value);
             }
             return sb.ToString();
         }

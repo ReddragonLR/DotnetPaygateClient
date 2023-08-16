@@ -16,10 +16,9 @@ namespace Paygate.Client
             _paygateId = paygateId;
         }
 
-        public Task<Models.InitiatePayment.Response> InitiatePayment(string paymentReference, double amount, Currency currency, Uri returnUrl, DateTime transactionDate, string emailAddress, Uri notifyUrl)
+        public async Task<Models.InitiatePayment.Response> InitiatePayment(string paymentReference, double amount, Currency currency, Uri returnUrl, DateTime transactionDate, string emailAddress, Uri notifyUrl)
         {
-            return _paygateApi.InitiateTransaction(new Models.InitiatePayment.Request
-                (
+            var request = new Models.InitiatePayment.Request(
                 _encryptionKey,
                 _paygateId,
                 paymentReference,
@@ -28,19 +27,34 @@ namespace Paygate.Client
                 returnUrl,
                 transactionDate,
                 emailAddress,
-                notifyUrl
-                ));
+                notifyUrl);
+            var response = await _paygateApi.InitiateTransaction(request);
+            
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException($"Http error. Status code: {response.StatusCode} with reason: {response.Error.ReasonPhrase} and message: {response.Error.Message}");
+
+            if (response.Content.Contains("ERROR"))
+                throw new HttpRequestException($"Error from Paygate: {response.Content}");
+
+            return Models.InitiatePayment.Response.FromPayload(response.Content);
         }
 
-        public Task<Models.PaymentNotification.Response> QueryTransaction(string payRequestId, string paymentReference)
+        public async Task<Models.PaymentNotification.Response> QueryTransaction(string payRequestId, string paymentReference)
         {
-            return _paygateApi.QueryTransaction(new Models.QueryTransaction.Request
-                (
+            var request = new Models.QueryTransaction.Request(
                 _encryptionKey,
                 _paygateId,
                 payRequestId,
-                paymentReference
-                ));
+                paymentReference);
+            var response = await _paygateApi.QueryTransaction(request);
+
+            if (!response.IsSuccessStatusCode)
+                throw new HttpRequestException($"Http error. Status code: {response.StatusCode} with reason: {response.Error.ReasonPhrase} and message: {response.Error.Message}");
+
+            if (response.Content.Contains("ERROR"))
+                throw new HttpRequestException($"Error from Paygate: {response.Content}");
+
+            return Models.PaymentNotification.Response.FromPayload(response.Content);
         }
     }
 }

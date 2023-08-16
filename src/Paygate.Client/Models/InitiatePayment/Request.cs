@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Paygate.Client.Models.Common;
+using Refit;
 
 namespace Paygate.Client.Models.InitiatePayment
 {
@@ -14,53 +15,54 @@ namespace Paygate.Client.Models.InitiatePayment
             Currency = currency.Code;
             ReturnUrl = returnUrl.AbsoluteUri;
             TransactionDate = transactionDate.ToString("yyyy-MM-dd HH:mm:ss");
-            Locale = Locales.en.ToString();
-            Country = currency.Country;
+            Locale = "en-za";
+            CountryCode = currency.CountryCode;
             Email = emailAddress;
             NotifyUrl = notifyUrl.AbsoluteUri;
+            Checksum = GenerateChecksum(EncryptionKey);
         }
 
-        [JsonProperty("PAYGATE_ID")]
+        [AliasAs("PAYGATE_ID")]
         [PartOfChecksum]
         public string PaygateId { get; private set; }
 
-        [JsonProperty("REFERENCE")]
+        [AliasAs("REFERENCE")]
         [PartOfChecksum]
         public string PaymentReference { get; private set; }
 
-        [JsonProperty("AMOUNT")]
+        [AliasAs("AMOUNT")]
         [PartOfChecksum]
         public double Amount { get; private set; }
 
-        [JsonProperty("CURRENCY")]
+        [AliasAs("CURRENCY")]
         [PartOfChecksum]
         public string Currency { get; private set; }
 
-        [JsonProperty("RETURN_URL")]
+        [AliasAs("RETURN_URL")]
         [PartOfChecksum]
         public string ReturnUrl { get; private set; }
 
-        [JsonProperty("TRANSACTION_DATE")]
+        [AliasAs("TRANSACTION_DATE")]
         [PartOfChecksum]
         public string TransactionDate { get; private set; }
 
-        [JsonProperty("LOCALE")]
+        [AliasAs("LOCALE")]
         [PartOfChecksum]
         public string Locale { get; private set; }
 
-        [JsonProperty("COUNTRY")]
+        [AliasAs("COUNTRY")]
         [PartOfChecksum]
-        public string Country { get; private set; }
+        public string CountryCode { get; private set; }
 
-        [JsonProperty("EMAIL")]
+        [AliasAs("EMAIL")]
         [PartOfChecksum]
         public string Email { get; private set; }
 
-        [JsonProperty("NOTIFY_URL")]
+        [AliasAs("NOTIFY_URL")]
         [PartOfChecksum]
         public string NotifyUrl { get; private set; }
 
-        [JsonProperty("CHECKSUM")]
-        public string Checksum => GenerateChecksum(EncryptionKey);
+        [AliasAs("CHECKSUM")]
+        public string Checksum { get; private set; }
     }
 }

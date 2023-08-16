@@ -2,6 +2,9 @@
  * Reference: https://stackoverflow.com/questions/11454004/calculate-a-md5-hash-from-a-string
  */
 
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Paygate.Client.Tests")]
 namespace Paygate.Client.Helpers
 {
     internal static class ChecksumHelper
@@ -14,7 +17,7 @@ namespace Paygate.Client.Helpers
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                return Convert.ToHexString(hashBytes);
+                return Convert.ToHexString(hashBytes).ToLower();
             }
         }
     }
