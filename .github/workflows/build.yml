@@ -47,7 +47,12 @@ jobs:
     - name: Prep packages
       run: dotnet nuget add source --username ReddragonLR --password ${{ secrets.PACKAGE_API_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ReddragonLR/index.json"
 
-    - name: 'Nuget push'
+    - name: 'Nuget push - GitHub'
       env:
         VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
       run: dotnet nuget push "src/Paygate.Client/bin/Release/Paygate.Client.$VERSION.nupkg" --api-key ${{ secrets.PACKAGE_API_TOKEN }} --source "github"
+
+    - name: 'Nuget push - Nuget'
+      env:
+        VERSION: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+      run: dotnet nuget push "src/Paygate.Client/bin/Release/Paygate.Client.$VERSION.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source "https://api.nuget.org/v3/index.json"
