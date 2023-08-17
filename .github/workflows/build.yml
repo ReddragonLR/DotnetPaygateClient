@@ -45,7 +45,7 @@ jobs:
       run: dotnet pack 'src/Paygate.Client/Paygate.Client.csproj' --configuration Release -p:PackageVersion=$VERSION
 
     - name: Prep packages
-      run: dotnet nuget add source --username ReddragonLR --password ${{ secrets.PACKAGE_API_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ReddragonLR/index.json"
+      run: dotnet nuget add source --username ReddragonLR --password ${{ secrets.PACKAGE_API_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/ReddragonLR/DotnetPaygateClient/index.json"
 
     - name: 'Nuget push - GitHub'
       env:
